@@ -1,0 +1,275 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3D Rotating Image Cards</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #111;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+      font-family: sans-serif;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: 2rem;
+      letter-spacing: 1px;
+    }
+
+    .wrapper {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(30px);
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .wrapper.active .overlay {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .inner {
+      --w: 120px;
+      --h: 180px;
+      --translateZ: calc((var(--w) + var(--h)) + 30px);
+      --rotateX: -15deg;
+      --perspective: 1000px;
+      position: absolute;
+      width: var(--w);
+      height: var(--h);
+      top: 25%;
+      left: calc(50% - (var(--w) / 2));
+      z-index: 2;
+      transform-style: preserve-3d;
+      transform: perspective(var(--perspective)) rotateX(var(--rotateX));
+    }
+
+    .card {
+      position: absolute;
+      border: 2px solid rgba(var(--color-card));
+      border-radius: 12px;
+      overflow: hidden;
+      inset: 0;
+      background-color: rgba(var(--color-card), 0.1);
+      transition: transform 0.5s ease, opacity 0.3s ease;
+    }
+
+    .card.zoomed {
+      transform: rotateY(0deg) scale(2) translateZ(200px) !important;
+      z-index: 999;
+    }
+
+    .card.hidden {
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+
+
+
+    .yt-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.yt-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #ff0000;
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.yt-link a:hover {
+  background-color: #cc0000;
+}
+
+.yt-link img {
+  height: 24px;
+}
+
+.linkedin-link {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.linkedin-link a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background-color: #0ba6f9;
+  padding: 10px 20px;
+  border-radius: 30px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.linkedin-link a:hover {
+  background-color: #005582;
+}
+
+.linkedin-link img {
+  height: 24px;
+}
+
+
+  
+
+  </style>
+</head>
+<body>
+  <h1>Rotating Image Gallery</h1>
+  <div class="wrapper">
+    <div class="inner" style="--quantity: 10;">
+      <div class="card" style="--index: 0;--color-card: 142, 249, 252;">
+        <div class="img"><img src="./images/jg1.jpg" alt="Vrindavan" /></div>
+      </div>
+      <div class="card" style="--index: 1;--color-card: 142, 252, 204;">
+        <div class="img"><img src="./images/jg2.jpeg" alt="Vrindavan" /></div>
+      </div>
+      <div class="card" style="--index: 2;--color-card: 142, 252, 157;">
+        <div class="img"><img src="./images/jg3.jpeg" alt="Ayodhya" /></div>
+      </div>
+      <div class="card" style="--index: 3;--color-card: 215, 252, 142;">
+        <div class="img"><img src="./images/jg4.jpeg" alt="Ayodhya" /></div>
+      </div>
+      <div class="card" style="--index: 4;--color-card: 252, 252, 142;">
+        <div class="img"><img src="./images/jg5.jpeg" alt="Banaras" /></div>
+      </div>
+      <div class="card" style="--index: 5;--color-card: 252, 208, 142;">
+        <div class="img"><img src="./images/jg6.jpeg" alt="Banaras" /></div>
+      </div>
+      <div class="card" style="--index: 6;--color-card: 252, 142, 142;">
+        <div class="img"><img src="./images/jg7.jpg" alt="Kedarnath" /></div>
+      </div>
+      <div class="card" style="--index: 7;--color-card: 252, 142, 239;">
+        <div class="img"><img src="./images/jg8.jpeg" alt="Kedarnath" /></div>
+      </div>
+      <div class="card" style="--index: 8;--color-card: 204, 142, 252;">
+        <div class="img"><img src="./images/jg9.jpeg" alt="Rameshwaram" /></div>
+      </div>
+      <div class="card" style="--index: 9;--color-card: 142, 202, 252;">
+        <div class="img"><img src="./images/jg10.jpeg" alt="Rameshwaram" /></div>
+      </div>
+    </div>
+    <div class="overlay"></div>
+  </div>
+
+<div class="yt-link">
+  <a href="https://www.youtube.com/@sccreations3834" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube" />
+    <span>Watch More on YouTube</span>
+  </a>
+</div>
+<div class="linkedin-link">
+  <a href="https://www.linkedin.com/in/naman-mishra-a67821226" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" />
+    <span>Connect on LinkedIn</span>
+  </a>
+</div>
+
+
+  <script>
+    const inner = document.querySelector('.inner');
+    const wrapper = document.querySelector('.wrapper');
+    const overlay = document.querySelector('.overlay');
+    const cards = document.querySelectorAll('.card');
+    const quantity = 10;
+    let angle = 0;
+    let isZoomed = false;
+
+    function updateRotation() {
+      if (!isZoomed) {
+        angle += 0.3;
+        inner.style.transform = `perspective(1000px) rotateX(-15deg) rotateY(${angle}deg)`;
+      }
+
+      const frontIndex = Math.round((quantity - (angle % 360) / 36) % quantity);
+      cards.forEach((card, i) => {
+        const rotate = (360 / quantity) * i;
+        card.style.transform = `rotateY(${rotate}deg) translateZ(330px)`;
+        card.style.pointerEvents = (i === frontIndex && !isZoomed) ? 'auto' : 'none';
+      });
+
+      requestAnimationFrame(updateRotation);
+    }
+
+    updateRotation();
+
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        if (isZoomed) return;
+        isZoomed = true;
+
+        inner.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
+        inner.style.transition = 'transform 0.5s ease';
+
+        card.classList.add('zoomed');
+        wrapper.classList.add('active');
+
+        cards.forEach(c => {
+          if (c !== card) {
+            c.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    overlay.addEventListener('click', () => {
+      isZoomed = false;
+      inner.style.transition = '';
+      wrapper.classList.remove('active');
+
+      cards.forEach(card => {
+        card.classList.remove('zoomed');
+        card.classList.remove('hidden');
+      });
+    });
+  </script>
+</body>
+</html>
